@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import sun.jvmstat.monitor.MonitoredVmUtil.commandLine
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -19,7 +20,12 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             export(libs.compose.runtime)
+            export(libs.compose.foundation)
+            export(libs.compose.material3)
+            export(libs.compose.ui)
+            export(libs.compose.components.resources)
             export(libs.androidx.lifecycle.viewmodelCompose)
+            export(libs.androidx.lifecycle.runtimeCompose)
             xcFramework.add(this)
             baseName = "Shared"
             isStatic = true
@@ -58,13 +64,13 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
         }
         commonMain.dependencies {
-            implementation(libs.compose.runtime)
-            implementation(libs.compose.foundation)
-            implementation(libs.compose.material3)
-            implementation(libs.compose.ui)
-            implementation(libs.compose.components.resources)
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
+            api(libs.compose.runtime)
+            api(libs.compose.foundation)
+            api(libs.compose.material3)
+            api(libs.compose.ui)
+            api(libs.compose.components.resources)
+            api(libs.androidx.lifecycle.viewmodelCompose)
+            api(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
         }
         commonTest.dependencies {
