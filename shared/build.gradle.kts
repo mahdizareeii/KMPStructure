@@ -61,17 +61,18 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
         }
         commonMain.dependencies {
-            api(libs.compose.runtime)
-            api(libs.compose.foundation)
-            api(libs.compose.material3)
-            api(libs.compose.ui)
-            api(libs.compose.components.resources)
-            api(libs.androidx.lifecycle.viewmodelCompose)
-            api(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.material3)
+            implementation(libs.compose.ui)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.uiToolingPreview)
+            implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.compose.uiToolingPreview)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
