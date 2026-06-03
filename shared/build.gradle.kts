@@ -1,7 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
-import sun.jvmstat.monitor.MonitoredVmUtil.commandLine
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -14,8 +13,13 @@ kotlin {
     val xcFramework = XCFramework()
 
     listOf(
+        //simulator on intel mac
         //iosX64(),
+
+        //iphone ipad real devices
         iosArm64(),
+
+        //simulator on apple silicon macs
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
@@ -26,7 +30,10 @@ kotlin {
             export(libs.compose.components.resources)
             export(libs.androidx.lifecycle.viewmodelCompose)
             export(libs.androidx.lifecycle.runtimeCompose)
+
             xcFramework.add(this)
+            binaryOption("bundleId", libs.plugins.projectId.get().pluginId)
+
             baseName = "Shared"
             isStatic = true
         }
@@ -68,9 +75,7 @@ kotlin {
             api(libs.compose.material3)
             api(libs.compose.ui)
             api(libs.compose.components.resources)
-            api(libs.compose.uiToolingPreview)
             api(libs.androidx.lifecycle.viewmodelCompose)
-            api(libs.androidx.lifecycle.runtimeCompose)
             api(libs.androidx.lifecycle.runtimeCompose)
             api(libs.compose.uiToolingPreview)
         }
@@ -86,41 +91,33 @@ kotlin {
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
-//
-//tasks.register("buildDebugXCFramework") {
-//    val outputDirProvider = project.layout.buildDirectory.dir("XCFrameworks/debug")
-//    val deviceFrameworkProvider = project.layout.buildDirectory.dir("bin/iosArm64/debugFramework/shared.framework")
-//    val simulatorFrameworkProvider = project.layout.buildDirectory.dir("bin/iosSimulatorArm64/debugFramework/shared.framework")
-//
-//    doFirst {
-//        val outputDir = outputDirProvider.get().asFile
-//        outputDir.deleteRecursively()
-//        outputDir.mkdirs()
-//    }
-//
-//    dependsOn(
-//        "linkDebugFrameworkIosArm64",
-//        "linkDebugFrameworkIosSimulatorArm64"
-//    )
-//
-//    doLast {
-//        val outputDir = outputDirProvider.get().asFile
-//        val deviceFramework = deviceFrameworkProvider.get().asFile
-//        val simulatorFramework = simulatorFrameworkProvider.get().asFile
-//
-//        if (!deviceFramework.exists() && !simulatorFramework.exists()) {
-//            throw GradleException("No frameworks found. Build frameworks first.")
-//        }
-//
-//        val command = mutableListOf("xcodebuild", "-create-xcframework")
-//        deviceFramework.takeIf { it.exists() }?.let { command += listOf("-framework", it.absolutePath) }
-//        simulatorFramework.takeIf { it.exists() }?.let { command += listOf("-framework", it.absolutePath) }
-//        command += listOf("-output", "${outputDir.absolutePath}/shared.xcframework")
-//
-//        project.exec {
-//            commandLine(command)
-//        }
-//
-//        println("Debug XCFramework created at: ${outputDir.absolutePath}/shared.xcframework")
-//    }
-//}
+
+tasks.register<Exec>("buildDebugXCFramework") {
+    val outputDir = layout.buildDirectory.dir("XCFrameworks/debug").get().asFile
+    val device = layout.buildDirectory.dir("bin/iosArm64/debugFramework/shared.framework").get().asFile
+    val simulator = layout.buildDirectory.dir("bin/iosSimulatorArm64/debugFramework/shared.framework").get().asFile
+
+    dependsOn(
+        "linkDebugFrameworkIosArm64",
+        "linkDebugFrameworkIosSimulatorArm64"
+    )
+
+    doFirst {
+        outputDir.deleteRecursively()
+        outputDir.mkdirs()
+    }
+
+    executable = "xcodebuild"
+    args = buildList {
+        add("-create-xcframework")
+
+        if (device.exists()) addAll(listOf("-framework", device.absolutePath))
+        if (simulator.exists()) addAll(listOf("-framework", simulator.absolutePath))
+
+        addAll(listOf("-output", "${outputDir.absolutePath}/shared.xcframework"))
+    }
+
+    doLast {
+        println("XCFramework created at: $outputDir")
+    }
+}

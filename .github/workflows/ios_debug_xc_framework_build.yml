@@ -1,11 +1,11 @@
-name: iOS XCFramework Build
+name: iOS fat XCFramework Build
 
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [ develop ]
   pull_request:
-      branches: [ master ]
+      branches: [ develop ]
 
 jobs:
   ios-build:
@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew clean
 
       - name: Build XCFramework
-        run: ./gradlew :shared:assembleXCFramework
+        run: ./gradlew :shared:buildDebugXCFramework
 
       - name: Upload XCFramework
         uses: actions/upload-artifact@v4
