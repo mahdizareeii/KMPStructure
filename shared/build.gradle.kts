@@ -10,7 +10,7 @@ plugins {
 }
 
 kotlin {
-    val xcFramework = XCFramework("shared")
+    val xcFramework = XCFramework()
 
     listOf(
         iosX64(),
@@ -79,3 +79,41 @@ kotlin {
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
+//
+//tasks.register("buildDebugXCFramework") {
+//    val outputDirProvider = project.layout.buildDirectory.dir("XCFrameworks/debug")
+//    val deviceFrameworkProvider = project.layout.buildDirectory.dir("bin/iosArm64/debugFramework/shared.framework")
+//    val simulatorFrameworkProvider = project.layout.buildDirectory.dir("bin/iosSimulatorArm64/debugFramework/shared.framework")
+//
+//    doFirst {
+//        val outputDir = outputDirProvider.get().asFile
+//        outputDir.deleteRecursively()
+//        outputDir.mkdirs()
+//    }
+//
+//    dependsOn(
+//        "linkDebugFrameworkIosArm64",
+//        "linkDebugFrameworkIosSimulatorArm64"
+//    )
+//
+//    doLast {
+//        val outputDir = outputDirProvider.get().asFile
+//        val deviceFramework = deviceFrameworkProvider.get().asFile
+//        val simulatorFramework = simulatorFrameworkProvider.get().asFile
+//
+//        if (!deviceFramework.exists() && !simulatorFramework.exists()) {
+//            throw GradleException("No frameworks found. Build frameworks first.")
+//        }
+//
+//        val command = mutableListOf("xcodebuild", "-create-xcframework")
+//        deviceFramework.takeIf { it.exists() }?.let { command += listOf("-framework", it.absolutePath) }
+//        simulatorFramework.takeIf { it.exists() }?.let { command += listOf("-framework", it.absolutePath) }
+//        command += listOf("-output", "${outputDir.absolutePath}/shared.xcframework")
+//
+//        project.exec {
+//            commandLine(command)
+//        }
+//
+//        println("Debug XCFramework created at: ${outputDir.absolutePath}/shared.xcframework")
+//    }
+//}
