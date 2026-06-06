@@ -31,7 +31,9 @@ jobs:
         run: ./gradlew clean
 
       - name: Build XCFramework
-        run: ./gradlew buildDebugXCFramework
+        run:
+          export GRADLE_OPTS="-Xmx6g"
+          ./gradlew buildDebugXCFramework
 
       - name: Upload XCFramework
         uses: actions/upload-artifact@v4

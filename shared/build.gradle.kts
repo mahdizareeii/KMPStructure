@@ -34,7 +34,7 @@ kotlin {
             xcFramework.add(this)
             binaryOption("bundleId", libs.plugins.projectId.get().pluginId)
 
-            baseName = "Shared"
+            baseName = "shared"
             isStatic = true
         }
     }
@@ -94,8 +94,8 @@ dependencies {
 
 tasks.register<Exec>("buildDebugXCFramework") {
     val outputDir = layout.buildDirectory.dir("XCFrameworks/debug").get().asFile
-    val device = layout.buildDirectory.dir("bin/iosArm64/debugFramework/Shared.framework").get().asFile
-    val simulator = layout.buildDirectory.dir("bin/iosSimulatorArm64/debugFramework/Shared.framework").get().asFile
+    val device = layout.buildDirectory.dir("bin/iosArm64/debugFramework/shared.framework").get().asFile
+    val simulator = layout.buildDirectory.dir("bin/iosSimulatorArm64/debugFramework/shared.framework").get().asFile
 
     dependsOn(
         "linkDebugFrameworkIosArm64",
@@ -114,7 +114,7 @@ tasks.register<Exec>("buildDebugXCFramework") {
         if (device.exists()) addAll(listOf("-framework", device.absolutePath))
         if (simulator.exists()) addAll(listOf("-framework", simulator.absolutePath))
 
-        addAll(listOf("-output", "${outputDir.absolutePath}/Shared.xcframework"))
+        addAll(listOf("-output", "${outputDir.absolutePath}/shared.xcframework"))
     }
 
     doLast {
