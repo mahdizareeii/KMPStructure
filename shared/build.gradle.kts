@@ -34,7 +34,7 @@ kotlin {
             xcFramework.add(this)
             binaryOption("bundleId", libs.plugins.projectId.get().pluginId)
 
-            baseName = "shared"
+            baseName = "Shared"
             isStatic = true
         }
     }
@@ -90,34 +90,4 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
-}
-
-tasks.register<Exec>("buildDebugXCFramework") {
-    val outputDir = layout.buildDirectory.dir("XCFrameworks/debug").get().asFile
-    //val device = layout.buildDirectory.dir("bin/iosArm64/debugFramework/shared.framework").get().asFile
-    val simulator = layout.buildDirectory.dir("bin/iosSimulatorArm64/debugFramework/shared.framework").get().asFile
-
-    dependsOn(
-        //"linkDebugFrameworkIosArm64",
-        "linkDebugFrameworkIosSimulatorArm64"
-    )
-
-    doFirst {
-        outputDir.deleteRecursively()
-        outputDir.mkdirs()
-    }
-
-    executable = "xcodebuild"
-    args = buildList {
-        add("-create-xcframework")
-
-        //if (device.exists()) addAll(listOf("-framework", device.absolutePath))
-        if (simulator.exists()) addAll(listOf("-framework", simulator.absolutePath))
-
-        addAll(listOf("-output", "${outputDir.absolutePath}/shared.xcframework"))
-    }
-
-    doLast {
-        println("XCFramework created at: $outputDir")
-    }
 }
