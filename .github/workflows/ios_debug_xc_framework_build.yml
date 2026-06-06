@@ -37,5 +37,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ios-xcframework
-          path: shared/build/XCFrameworks/debug/shared.xcframework
+          path: shared/build/XCFrameworks/**
           if-no-files-found: error

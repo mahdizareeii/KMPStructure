@@ -94,11 +94,11 @@ dependencies {
 
 tasks.register<Exec>("buildDebugXCFramework") {
     val outputDir = layout.buildDirectory.dir("XCFrameworks/debug").get().asFile
-    val device = layout.buildDirectory.dir("bin/iosArm64/debugFramework/shared.framework").get().asFile
+    //val device = layout.buildDirectory.dir("bin/iosArm64/debugFramework/shared.framework").get().asFile
     val simulator = layout.buildDirectory.dir("bin/iosSimulatorArm64/debugFramework/shared.framework").get().asFile
 
     dependsOn(
-        "linkDebugFrameworkIosArm64",
+        //"linkDebugFrameworkIosArm64",
         "linkDebugFrameworkIosSimulatorArm64"
     )
 
@@ -111,7 +111,7 @@ tasks.register<Exec>("buildDebugXCFramework") {
     args = buildList {
         add("-create-xcframework")
 
-        if (device.exists()) addAll(listOf("-framework", device.absolutePath))
+        //if (device.exists()) addAll(listOf("-framework", device.absolutePath))
         if (simulator.exists()) addAll(listOf("-framework", simulator.absolutePath))
 
         addAll(listOf("-output", "${outputDir.absolutePath}/shared.xcframework"))
