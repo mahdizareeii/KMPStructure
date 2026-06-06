@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew clean
 
       - name: Build XCFramework
-        run: ./gradlew :shared:buildDebugXCFramework
+        run: ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
 
       - name: Upload XCFramework
         uses: actions/upload-artifact@v4
