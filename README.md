@@ -19,3 +19,12 @@ With this setup:
 ✅ CI builds iOS XCFramework automatically
 
 ✅ Works on GitHub Actions macOS runners
+
+📖 Medium Article
+
+You can read the full guide here:
+
+👉 How to build iOS XCFramework in Kotlin Multiplatform without a Mac
+
+https://medium.com/@mahdizareeii/how-to-build-ios-xcframework-in-kotlin-multiplatform-without-a-mac-6d4f1c33f2f5
+
