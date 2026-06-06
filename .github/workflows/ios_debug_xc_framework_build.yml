@@ -38,3 +38,4 @@ jobs:
         with:
           name: ios-xcframework
           path: shared/build/XCFrameworks/**
+          if-no-files-found: error
