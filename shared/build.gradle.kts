@@ -10,7 +10,7 @@ plugins {
 }
 
 kotlin {
-    val xcFramework = XCFramework(xcFrameworkName = "shared")
+    val xcFramework = XCFramework(xcFrameworkName = "Shared")
 
     listOf(
         //simulator on intel mac
