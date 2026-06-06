@@ -34,7 +34,7 @@ kotlin {
             xcFramework.add(this)
             binaryOption("bundleId", libs.plugins.projectId.get().pluginId)
 
-            baseName = "Shared"
+            baseName = "shared"
             isStatic = true
         }
     }
