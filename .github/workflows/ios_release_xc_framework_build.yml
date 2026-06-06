@@ -1,4 +1,4 @@
-name: iOS fat XCFramework Build
+name: iOS release XCFramework Build
 
 on:
   workflow_dispatch:
@@ -38,3 +38,4 @@ jobs:
         with:
           name: ios-xcframework
           path: shared/build/XCFrameworks/**
+          if-no-files-found: error
