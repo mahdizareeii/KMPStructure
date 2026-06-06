@@ -15,7 +15,7 @@ pluginManagement {
 
         // if your project did not build comment these mavens
         // ─── Mirror های ایرانی ───────────────────────────────────────
-        maven { url = uri("https://maven.myket.ir") }
+        //maven { url = uri("https://maven.myket.ir") }
         maven { url = uri("https://maven.devneeds.ir") }
         maven { url = uri("https://gradle.iranrepo.ir") }
         maven { url = uri("https://gradle.jamko.ir") }
@@ -42,7 +42,7 @@ dependencyResolutionManagement {
 
         // if your project did not build comment these mavens
         // ─── Mirror های ایرانی ───────────────────────────────────────
-        maven { url = uri("https://maven.myket.ir") }
+        //maven { url = uri("https://maven.myket.ir") }
         maven { url = uri("https://maven.devneeds.ir") }
         maven { url = uri("https://gradle.iranrepo.ir") }
         maven { url = uri("https://gradle.jamko.ir") }
