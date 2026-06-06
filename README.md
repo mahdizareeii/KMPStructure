@@ -1,46 +1,39 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM).
+🚀 Kotlin Multiplatform iOS XCFramework Build (No Mac Required)
 
-* [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+This project demonstrates how to build an iOS XCFramework from a Kotlin Multiplatform (KMP) shared module using GitHub Actions, without needing a personal Mac.
 
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
+📦 What this project solves
 
-### Running the apps
+Normally, iOS builds require:
 
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
+macOS
+Xcode
+Kotlin/Native toolchain
 
-- Android app: `./gradlew :androidApp:assembleDebug`
-- Desktop app:
-  - Hot reload: `./gradlew :desktopApp:hotRun --auto`
-  - Standard run: `./gradlew :desktopApp:run`
-- Web app:
-  - Wasm target (faster, modern browsers): `./gradlew :webApp:wasmJsBrowserDevelopmentRun`
-  - JS target (slower, supports older browsers): `./gradlew :webApp:jsBrowserDevelopmentRun`
-- iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+With this setup:
 
-### Running tests
+❌ No Mac required locally
+❌ No Mac Cloud needed
+✅ CI builds iOS XCFramework automatically
+✅ Works on GitHub Actions macOS runners
+⚙️ CI/CD Setup
+🔹 Debug Build (develop)
+run: ./gradlew :shared:assembleSharedDebugXCFramework
+🔹 Release Build (master)
+run: ./gradlew :shared:assembleSharedReleaseXCFramework
 
-Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
+Artifacts are automatically uploaded from:
 
-- Android tests: `./gradlew :shared:testAndroidHostTest`
-- Desktop tests: `./gradlew :shared:jvmTest`
-- Web tests:
-  - Wasm target: `./gradlew :shared:wasmJsTest`
-  - JS target: `./gradlew :shared:jsTest`
-- iOS tests: `./gradlew :shared:iosSimulatorArm64Test`
+shared/build/XCFrameworks/
+🧠 KMP Configuration
 
----
+The shared module is configured to generate an XCFramework for:
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+iOS Device (arm64)
+iOS Simulator (arm64)
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [YouTrack](https://youtrack.jetbrains.com/newIssue?project=CMP).
+Key setup:
+
+Compose Multiplatform support
+XCFramework aggregation
+Static framework output
